@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'home.dart';
 import 'login.dart';
 import 'register.dart';
 
@@ -31,6 +32,11 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
             home: Login(),
+            routes: {
+              "/login": (context) => Login(),
+              "/register": (context) => Register(),
+              "/home": (context) => Home(), 
+            },
           );
         }
 

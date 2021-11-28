@@ -22,7 +22,8 @@ class Login extends StatelessWidget {
         final DocumentSnapshot snapshot = await db.collection('users').doc(user.user?.uid).get();
 
         final data = snapshot.data();
-        print("logged in"+(data as dynamic)["username"]);
+        // print("logged in"+(data as dynamic)["username"]);
+        Navigator.of(context).pushNamed("/home");
       } catch (e) {
         print("errrro"+e.toString());
       }
