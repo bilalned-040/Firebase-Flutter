@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'login.dart';
 import 'register.dart';
 
 void main() {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
-          return Container();
+          return Container(child: Text("error"),);
         }
 
         // Once complete, show your application
@@ -29,12 +30,12 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: Register(),
+            home: Login(),
           );
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
-        return Container();
+        return Container(child: Text("loading"),);
       },
     );
   }

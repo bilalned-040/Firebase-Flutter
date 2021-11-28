@@ -2,26 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Register extends StatelessWidget {
-  const Register({Key? key}) : super(key: key);
+class Login extends StatelessWidget {
+  const Login({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController usernameController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
-    void register() async {
+    void login() async {
       FirebaseAuth auth = FirebaseAuth.instance;
       FirebaseFirestore db = FirebaseFirestore.instance;
-      final String username = usernameController.text;
+
       final String email = emailController.text;
       final String password = passwordController.text;
 
       try {
-        final UserCredential user = await auth.createUserWithEmailAndPassword(
-            email: email, password: password);
-        await db.collection('users').doc(user.user?.uid).set({"username":username,"email":email});
+        final UserCredential user = await auth.signInWithEmailAndPassword(email: email, password: password);
+        final DocumentSnapshot snapshot = await db.collection('users').doc(user.user?.uid).get();
+
+        final data = snapshot.data();
+        print("logged in"+(data as dynamic)["username"]);
       } catch (e) {
         print("errrro"+e.toString());
       }
@@ -35,12 +36,6 @@ class Register extends StatelessWidget {
             child: Column(
               children: [
                 TextFormField(
-                  controller: usernameController,
-                  decoration: InputDecoration(
-                    labelText: 'Enter your username',
-                  ),
-                ),
-                TextFormField(
                   controller: emailController,
                   decoration: InputDecoration(
                     labelText: 'Enter your email',
@@ -52,7 +47,7 @@ class Register extends StatelessWidget {
                     labelText: 'Enter your password',
                   ),
                 ),
-                ElevatedButton(onPressed: register, child: Text("Register"))
+                ElevatedButton(onPressed: login, child: Text("Login"))
               ],
             ),
           ),
