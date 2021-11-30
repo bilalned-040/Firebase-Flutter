@@ -22,8 +22,11 @@ class Register extends StatelessWidget {
         final UserCredential user = await auth.createUserWithEmailAndPassword(
             email: email, password: password);
         await db.collection('users').doc(user.user?.uid).set({"username":username,"email":email});
-      } catch (e) {
-        print("errrro"+e.toString());
+      } on FirebaseAuthException catch (e) {
+        print("error");
+        showDialog(context: context, builder: (BuildContext context){
+          return AlertDialog(content: Text("${e.message}"));
+        });
       }
     }
 

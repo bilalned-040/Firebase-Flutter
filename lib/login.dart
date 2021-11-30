@@ -24,8 +24,11 @@ class Login extends StatelessWidget {
         final data = snapshot.data();
         // print("logged in"+(data as dynamic)["username"]);
         Navigator.of(context).pushNamed("/home");
-      } catch (e) {
-        print("errrro"+e.toString());
+      } on FirebaseAuthException catch (e) {
+        print("error");
+        showDialog(context: context, builder: (BuildContext context){
+          return AlertDialog(content: Text("${e.message}"));
+        });
       }
     }
 
